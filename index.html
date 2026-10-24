@@ -121,7 +121,7 @@ th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;verti
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 /* ===== EDIT THESE FOR THE REAL BUSINESS ===== */
-var CONFIG={shop:"SV Fashion Botique",whatsapp:"9190030 80014",email:"owner@example.com",upi:"svboutique@upi",ownerPin:"1234",sheetUrl:"https://docs.google.com/spreadsheets/d/1ct2_l8T7r5rlAgcsrISGPZt35xLogg95kcIUJ3hBOcM/edit?usp=sharing",token:"SVFASHION"};
+var CONFIG={shop:"SV Fashion Botique",whatsapp:"919999999999",email:"owner@example.com",upi:"svboutique@upi",ownerPin:"1234",sheetUrl:"",token:"change-this-word"};
 var PRODUCTS=[
 {id:1,name:"Antique Jhumkas",cat:"Earrings",price:450,img:""},
 {id:2,name:"Pearl Drop Earrings",cat:"Earrings",price:350,old:450,img:""},
@@ -135,6 +135,7 @@ var PRODUCTS=[
 var DESC={1:"Classic antique-finish jhumkas with fine detailing and a secure push-back closure. A festive favourite for sarees and ethnic wear.",2:"Light pearl drop earrings with a soft golden finish. Comfortable for all-day wear.",3:"A statement kemp-style choker with a snug fit and adjustable back chain. Pairs well with silk sarees.",4:"A sparkling AD stone necklace with a clean, elegant design for weddings and parties.",5:"A long, graceful haaram with stone work and a pendant drop. Falls beautifully over festive outfits.",6:"A traditional temple-style haaram with antique gold-tone work, made for celebrations.",7:"A set of stone-studded bangles with a rich gold-tone finish. Message us to confirm your size.",8:"A bold, sturdy kada with an antique finish. Looks great alone or stacked."};
 /* img: put a photo link or data URI here later; empty shows a placeholder */
 var ICON={Necklaces:'<path d="M4 5c0 9 4 13 8 13s8-4 8-13" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="20" r="2" fill="currentColor"/>',Earrings:'<path d="M12 8v5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="6" r="2" fill="currentColor"/><path d="M8 20c0-4 2-7 4-7s4 3 4 7z" fill="currentColor"/>',Bangles:'<ellipse cx="12" cy="12" rx="9" ry="6" fill="none" stroke="currentColor" stroke-width="2.4"/><ellipse cx="12" cy="12" rx="6" ry="3" fill="none" stroke="currentColor" stroke-width="1.2"/>',Haaram:'<path d="M5 3c-1 8 3 11 7 12 4-1 8-4 7-12" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 15v3" stroke="currentColor" stroke-width="1.5"/><path d="M12 22l-3-4h6z" fill="currentColor"/>'};
+ICON.Necklace=ICON.Necklaces;ICON.Earring=ICON.Earrings;ICON.Bangle=ICON.Bangles;ICON.Haram=ICON.Haaram;
 var cat="All",cur=null;
 function $(i){return document.getElementById(i)}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
@@ -176,7 +177,7 @@ function show(t,h){$("oTitle").textContent=t;$("oBody").innerHTML=h;if(!$("order
 function cnt(){var n=cart.reduce(function(s,i){return s+i.q},0);$("cc").textContent=n;$("cc2").textContent=n}
 function total(){return cart.reduce(function(s,i){return s+byId(i.id).price*i.q},0)}
 function openDetail(id){var p=byId(id);
-show(p.name,pic(p)+'<div class="cat">'+p.cat+'</div><div class="tot">'+(p.old?'<span class="old">'+inr(p.old)+'</span>':'')+inr(p.price)+'</div><p>'+esc(p.desc||DESC[id]||"")+'</p><ul class="dl"><li>Category: '+p.cat+'</li><li>Easy UPI payment with order confirmation on WhatsApp and email</li><li>Message us on WhatsApp for size or colour questions</li></ul><div class="row"><label>Quantity<select id="dq">'+[1,2,3,4,5].map(function(n){return '<option>'+n+'</option>'}).join("")+'</select></label><button class="btn" type="button" id="add" style="align-self:end">Add to cart</button></div>');
+show(p.name,pic(p)+'<div class="cat">'+p.cat+'</div><div class="tot">'+(p.old?'<span class="old">'+inr(p.old)+'</span>':'')+inr(p.price)+'</div><p>'+esc(p.desc||(CONFIG.sheetUrl?"":DESC[id])||"")+'</p><ul class="dl"><li>Category: '+p.cat+'</li><li>Easy UPI payment with order confirmation on WhatsApp and email</li><li>Message us on WhatsApp for size or colour questions</li></ul><div class="row"><label>Quantity<select id="dq">'+[1,2,3,4,5].map(function(n){return '<option>'+n+'</option>'}).join("")+'</select></label><button class="btn" type="button" id="add" style="align-self:end">Add to cart</button></div>');
 $("add").onclick=function(){var q=+$("dq").value,f=cart.filter(function(i){return i.id===id})[0];if(f)f.q+=q;else cart.push({id:id,q:q});cnt();openCart()}}
 function openCart(){if(!cart.length){show("Your cart",'<p>Your cart is empty. Browse the collection and add something you like.</p>');return}
 var c=cust||{};
