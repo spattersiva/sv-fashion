@@ -68,7 +68,7 @@ th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;verti
 .hero .btn{margin:0 8px 8px 0}
 .eyebrow{letter-spacing:.2em;text-transform:uppercase;font-size:12px;color:var(--gold);font-weight:700;margin-bottom:10px}
 .art{aspect-ratio:1;border-radius:50%;background:conic-gradient(from 200deg,#f6dc9a,#b8893b,#0f5132,#2f7a52,#e3bf72,#f6dc9a);display:grid;place-items:center;max-width:430px;margin:auto;width:100%}
-.art div{width:80%;height:80%;border-radius:50%;background:#fbfcf6;display:grid;place-items:center;color:var(--wine)}.art img{width:92%;height:auto;display:block}
+.art>div:first-child{width:80%;height:80%;border-radius:50%;background:#fbfcf6;display:grid;place-items:center;color:var(--wine)}.art img{width:92%;height:auto;display:block}
 .strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;padding:14px 0;border-block:1px solid var(--line);text-align:center;font-size:14px;color:var(--muted)}
 .st{display:flex;align-items:center;gap:16px;margin:0 0 22px}.st:before,.st:after{content:"";flex:1;height:1px;background:var(--line)}.st h2{font-size:clamp(28px,5vw,40px);color:var(--wine);white-space:nowrap}
 .cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:18px}
@@ -84,7 +84,7 @@ th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;verti
 .art{position:relative;animation:glow 4s ease-in-out infinite}
 .shine{position:relative;display:block;width:92%;animation:pop 1.2s cubic-bezier(.2,.8,.2,1) both,float 6s ease-in-out 1.2s infinite}
 .shine img{width:100%;display:block}
-.shine:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.95) 50%,transparent 62%) 150% 0/250% 100% no-repeat;-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat;animation:sweep 4s ease-in-out 1.4s infinite}
+.shine:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 43%,rgba(255,255,255,.75) 50%,transparent 57%) 150% 0/250% 100% no-repeat;-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat;animation:sweep 4s ease-in-out 1.4s infinite}
 .sp{position:absolute;color:var(--gold);font-size:22px;font-style:normal;opacity:0;animation:twinkle 3s ease-in-out infinite;pointer-events:none}
 .logo img{animation:pop .9s ease both}
 @keyframes pop{from{opacity:0;transform:scale(.7) rotate(-4deg)}to{opacity:1;transform:none}}
@@ -137,12 +137,23 @@ dialog[open]{animation:sheet .35s cubic-bezier(.2,.8,.2,1)}
 .bn button{min-height:56px}.bn button:active{background:var(--line)}
 .ib{min-height:40px}
 }
+.hero{overflow-x:clip}
+.orb{position:absolute;inset:-6%;border-radius:50%;animation:spin 28s linear infinite;pointer-events:none}
+.fj{position:absolute;width:13%;aspect-ratio:1;margin:-6.5% 0 0 -6.5%;color:var(--gold);animation:spinr 28s linear infinite}
+.fj svg{width:100%;height:100%;display:block;animation:bob 3s ease-in-out infinite,fadein 1s ease calc(var(--i)*.15s) both}
+.fj:nth-child(even) svg{animation-duration:3.6s,1s}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinr{to{transform:rotate(-360deg)}}
+@keyframes bob{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.15)}}
+@keyframes fadein{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.orb,.fj,.fj svg{animation:none!important}}
+@media (max-width:700px){.hero .art{max-width:240px}}
 .bn{display:none}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--wine);color:var(--on-wine);padding:10px 18px;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:60;font-weight:500}.toast.on{opacity:1}
 @media (max-width:700px){.hero{grid-template-columns:1fr;padding-top:26px}.art{max-width:270px;order:-1}header nav,#wlBtn{display:none}.logo img{height:46px}body{padding-bottom:72px}
 .bn{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px));z-index:20}
 .bn button{background:none;border:0;color:var(--ink);font:500 12px "DM Sans",sans-serif;padding:6px 0;cursor:pointer;display:grid;gap:2px;justify-items:center}.bn b{font-size:18px;line-height:1.1;color:var(--wine)}}
-@media (max-width:520px){.bname{display:none}.row{grid-template-columns:1fr}nav a{margin-left:10px}}
+@media (max-width:520px){.bname{font-size:17px;line-height:1.05;max-width:92px}.row{grid-template-columns:1fr}nav a{margin-left:10px}}
 </style>
 </head>
 <body>
@@ -150,8 +161,8 @@ dialog[open]{animation:sheet .35s cubic-bezier(.2,.8,.2,1)}
 <nav><a href="#cats">Categories</a><a href="#shop">Shop</a><a href="#how">How to order</a><a href="#contact">Contact</a></nav>
 <div class="icons"><button class="ib" id="thBtn" type="button" aria-label="Switch to dark mode">&#9790;</button><button class="ib" id="wlBtn" type="button" aria-label="Wishlist">&#9825; <span id="wc">0</span></button><button class="ib" id="cartBtn" type="button">Cart (<span id="cc">0</span>)</button></div></div></header>
 <main class="wrap" id="top">
-<div class="hero"><div><div class="eyebrow">New collection</div><h1>Jewellery for every celebration</h1><p>Handpicked necklaces, haarams, earrings and bangles. Choose your favourites, pay by UPI, and we will confirm your order on WhatsApp.</p><a class="btn" href="#shop">Shop now</a><a class="btn alt" href="#cats">Browse categories</a></div>
-<div class="art"><div><span class="shine" id="shine"><img id="heroLogo" alt="SV Fashion Botique logo"></span></div><i class="sp" style="top:10%;left:14%" aria-hidden="true">&#10022;</i><i class="sp" style="top:18%;right:8%;animation-delay:1s" aria-hidden="true">&#10022;</i><i class="sp" style="bottom:12%;left:20%;animation-delay:2s" aria-hidden="true">&#10022;</i><i class="sp" style="bottom:20%;right:14%;animation-delay:1.5s" aria-hidden="true">&#10022;</i></div></div>
+<div class="hero"><div><div class="eyebrow">SV Fashion Botique</div><h1>Jewellery for every celebration</h1><p>Handpicked necklaces, haarams, earrings and bangles. Choose your favourites, pay by UPI, and we will confirm your order on WhatsApp.</p><a class="btn" href="#shop">Shop now</a><a class="btn alt" href="#cats">Browse categories</a></div>
+<div class="art"><div><span class="shine" id="shine"><img id="heroLogo" alt="SV Fashion Botique logo"></span></div><div class="orb" aria-hidden="true"><span class="fj" style="left:50%;top:0%;--i:1"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="3.5" r="2"/><path d="M12 5.5v4" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M6.5 19c0-5 2.4-9.500 5.500-9.500s5.500 4.500 5.500 9.500z"/><circle cx="12" cy="21.5" r="1.2"/></svg></span><span class="fj" style="left:93%;top:25%;--i:2"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.500 3c0 9 4.500 14.500 9.500 14.500S21.500 12 21.500 3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 17.500l3 3-3 2.500-3-2.500z"/></svg></span><span class="fj" style="left:93%;top:75%;--i:3"><svg viewBox="0 0 24 24" fill="currentColor"><ellipse cx="12" cy="12" rx="10" ry="6.500" fill="none" stroke="currentColor" stroke-width="2.800"/><ellipse cx="12" cy="12" rx="6.500" ry="3.200" fill="none" stroke="currentColor" stroke-width="1.200"/></svg></span><span class="fj" style="left:50%;top:100%;--i:4"><svg viewBox="0 0 24 24" fill="currentColor"><g fill="none" stroke="currentColor" stroke-width="1.700"><ellipse cx="5.500" cy="6" rx="3.500" ry="2" transform="rotate(35 5.500 6)"/><ellipse cx="10" cy="9" rx="3.500" ry="2" transform="rotate(-35 10 9)"/><ellipse cx="14.500" cy="12.500" rx="3.500" ry="2" transform="rotate(35 14.500 12.500)"/><ellipse cx="19" cy="16" rx="3.500" ry="2" transform="rotate(-35 19 16)"/></g></svg></span><span class="fj" style="left:7%;top:75%;--i:5"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="15.500" r="6" fill="none" stroke="currentColor" stroke-width="2.200"/><path d="M8.500 6.500L12 2.500l3.500 4L12 10z"/></svg></span><span class="fj" style="left:7%;top:25%;--i:6"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l6.500 7L12 22 5.500 9z"/></svg></span></div></div></div>
 <div class="strip"><div>Easy UPI payment</div><div>Confirmation on WhatsApp and email</div><div>Handpicked designs</div></div>
 <section id="cats"><div class="st"><h2>Top Categories</h2></div><div class="cats" id="cats-g"></div></section>
 <section id="shop"><div class="st"><h2 id="shopT">Best Sellers</h2></div><div class="chips" id="chips" role="group" aria-label="Filter by category"></div><div class="grid" id="grid"></div></section>
