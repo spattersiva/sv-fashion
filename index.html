@@ -81,6 +81,62 @@ th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;verti
 .old{color:var(--muted);text-decoration:line-through;margin-right:6px;font-weight:400}
 .flogo img{height:70px;width:auto;display:block;margin-bottom:8px}
 .card{cursor:pointer}.dl{margin:0;padding-left:18px;color:var(--muted);font-size:14px}.logo{display:flex;align-items:center;gap:12px;text-decoration:none}.bname{font:700 26px "Cormorant Garamond",Georgia,serif;color:var(--wine)}
+.art{position:relative;animation:glow 4s ease-in-out infinite}
+.shine{position:relative;display:block;width:92%;animation:pop 1.2s cubic-bezier(.2,.8,.2,1) both,float 6s ease-in-out 1.2s infinite}
+.shine img{width:100%;display:block}
+.shine:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.95) 50%,transparent 62%) 150% 0/250% 100% no-repeat;-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat;animation:sweep 4s ease-in-out 1.4s infinite}
+.sp{position:absolute;color:var(--gold);font-size:22px;font-style:normal;opacity:0;animation:twinkle 3s ease-in-out infinite;pointer-events:none}
+.logo img{animation:pop .9s ease both}
+@keyframes pop{from{opacity:0;transform:scale(.7) rotate(-4deg)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes sweep{0%{background-position:150% 0}60%,100%{background-position:-50% 0}}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.4) rotate(0)}50%{opacity:1;transform:scale(1) rotate(25deg)}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(184,137,59,0)}50%{box-shadow:0 0 40px 8px rgba(184,137,59,.35)}}
+@media (prefers-reduced-motion:reduce){.art,.shine,.shine:after,.sp,.logo img{animation:none!important}.sp{opacity:.8}}
+.card,.btn,.chip,.cat-t span,.heart,.art,.logo{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease,border-color .3s,background-color .3s,color .3s}
+.imgb{overflow:hidden}.imgb .ph,.imgb img{transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+header nav a{position:relative;transition:color .3s}header nav a:after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:100%;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+@media (hover:hover){
+.card:hover{transform:translateY(-10px) scale(1.05);box-shadow:0 26px 46px -14px rgba(184,137,59,.5);border-color:var(--gold);z-index:3}
+.card:hover .imgb .ph,.card:hover .imgb img{transform:scale(1.15)}
+.btn:hover{transform:translateY(-3px) scale(1.06);box-shadow:0 12px 22px -8px rgba(15,81,50,.5)}
+.chip:hover{transform:translateY(-2px) scale(1.07);border-color:var(--gold)}
+.cat-t:hover span{transform:translateY(-8px) scale(1.15);box-shadow:0 18px 30px -10px rgba(184,137,59,.6)}
+.heart:hover{transform:scale(1.2)}
+.art:hover{transform:scale(1.08)}
+.logo:hover{transform:scale(1.07)}
+header nav a:hover{color:var(--gold)}header nav a:hover:after{transform:scaleX(1)}
+}
+.btn:active,.card:active{transform:scale(.98)}
+@media (prefers-reduced-motion:reduce){.card:hover,.btn:hover,.chip:hover,.cat-t:hover span,.art:hover,.logo:hover,.heart:hover,.card:hover .imgb .ph,.card:hover .imgb img{transform:none!important}}
+html{-webkit-tap-highlight-color:rgba(184,137,59,.25)}
+button,.btn,a,select,.card{touch-action:manipulation}
+input,select,textarea{font-size:16px}
+@media (hover:none){.card.rv{opacity:0;transform:translateY(22px);transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .6s ease}.card.rv.in{opacity:1;transform:none}.card.rv.in:active{transform:scale(.97)}.card:nth-child(even){transition-delay:.08s}.btn:active{transform:scale(.96)}.cat-t:active span{transform:scale(1.1)}.chip:active{transform:scale(.95)}}
+@media (prefers-reduced-motion:reduce){.card.rv{opacity:1!important;transform:none!important}}
+@keyframes sheet{from{transform:translateY(60px);opacity:0}}
+@media (max-width:700px){
+.wrap{padding:0 14px}
+.hero h1{font-size:clamp(34px,10vw,46px);max-width:none}.hero p{font-size:16px;margin:12px 0 18px}
+.hero .btn{display:block;width:100%;text-align:center;margin:0 0 10px;min-height:48px;padding:14px}
+.cats{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;margin:0 -14px;padding:2px 14px 8px;scrollbar-width:none}
+.cats::-webkit-scrollbar,.chips::-webkit-scrollbar{display:none}
+.cat-t{flex:0 0 88px;scroll-snap-align:start;font-size:13px}.cat-t span{width:80px}
+.chips{flex-wrap:nowrap;overflow-x:auto;margin:14px -14px;padding:2px 14px 6px;scrollbar-width:none}.chip{white-space:nowrap;min-height:42px;padding:8px 18px}
+.grid{grid-template-columns:repeat(2,1fr);gap:12px}
+.card h3{font-size:18px}.card .b{padding:10px;gap:4px}.card .btn{width:100%;min-height:44px;padding:10px 6px;font-size:14px;text-align:center}
+.heart{width:40px;height:40px}.badge{top:8px;left:8px}
+.st h2{font-size:28px}.st{margin-bottom:16px}
+.art{animation:none}
+dialog,dialog.wide{width:100vw;max-width:100vw;margin:auto 0 0;border-radius:20px 20px 0 0;max-height:92vh}
+dialog[open]{animation:sheet .35s cubic-bezier(.2,.8,.2,1)}
+.db{padding:16px 16px calc(24px + env(safe-area-inset-bottom,0px))}
+.db .ph,.db>img{height:min(72vw,320px)}
+.db>.btn{width:100%;text-align:center;min-height:50px}
+#go,#paid{position:sticky;bottom:8px;box-shadow:0 8px 20px -6px rgba(0,0,0,.35)}
+.bn button{min-height:56px}.bn button:active{background:var(--line)}
+.ib{min-height:40px}
+}
 .bn{display:none}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--wine);color:var(--on-wine);padding:10px 18px;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:60;font-weight:500}.toast.on{opacity:1}
 @media (max-width:700px){.hero{grid-template-columns:1fr;padding-top:26px}.art{max-width:270px;order:-1}header nav,#wlBtn{display:none}.logo img{height:46px}body{padding-bottom:72px}
@@ -95,7 +151,7 @@ th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;verti
 <div class="icons"><button class="ib" id="thBtn" type="button" aria-label="Switch to dark mode">&#9790;</button><button class="ib" id="wlBtn" type="button" aria-label="Wishlist">&#9825; <span id="wc">0</span></button><button class="ib" id="cartBtn" type="button">Cart (<span id="cc">0</span>)</button></div></div></header>
 <main class="wrap" id="top">
 <div class="hero"><div><div class="eyebrow">New collection</div><h1>Jewellery for every celebration</h1><p>Handpicked necklaces, haarams, earrings and bangles. Choose your favourites, pay by UPI, and we will confirm your order on WhatsApp.</p><a class="btn" href="#shop">Shop now</a><a class="btn alt" href="#cats">Browse categories</a></div>
-<div class="art"><div><img id="heroLogo" alt="SV Fashion Botique logo"></div></div></div>
+<div class="art"><div><span class="shine" id="shine"><img id="heroLogo" alt="SV Fashion Botique logo"></span></div><i class="sp" style="top:10%;left:14%" aria-hidden="true">&#10022;</i><i class="sp" style="top:18%;right:8%;animation-delay:1s" aria-hidden="true">&#10022;</i><i class="sp" style="bottom:12%;left:20%;animation-delay:2s" aria-hidden="true">&#10022;</i><i class="sp" style="bottom:20%;right:14%;animation-delay:1.5s" aria-hidden="true">&#10022;</i></div></div>
 <div class="strip"><div>Easy UPI payment</div><div>Confirmation on WhatsApp and email</div><div>Handpicked designs</div></div>
 <section id="cats"><div class="st"><h2>Top Categories</h2></div><div class="cats" id="cats-g"></div></section>
 <section id="shop"><div class="st"><h2 id="shopT">Best Sellers</h2></div><div class="chips" id="chips" role="group" aria-label="Filter by category"></div><div class="grid" id="grid"></div></section>
@@ -121,7 +177,7 @@ th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;verti
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 /* ===== EDIT THESE FOR THE REAL BUSINESS ===== */
-var CONFIG={shop:"SV Fashion Botique",whatsapp:"919003080014",email:"example@example.com",upi:"svboutique@upi",ownerPin:"1234",sheetUrl:"https://script.google.com/macros/s/AKfycbxiTD62p2YeuHIshIHhExteief9ywbMO6dVkmgp3IoRQMPepKeIto466_VrLmCBynj1/exec",token:"change-this-word"};
+var CONFIG={shop:"SV Fashion Botique",whatsapp:"919999999999",email:"owner@example.com",upi:"svboutique@upi",ownerPin:"1234",sheetUrl:"",token:"change-this-word"};
 var PRODUCTS=[
 {id:1,name:"Antique Jhumkas",cat:"Earrings",price:450,img:""},
 {id:2,name:"Pearl Drop Earrings",cat:"Earrings",price:350,old:450,img:""},
@@ -155,7 +211,11 @@ function card(p){var on=wish.indexOf(p.id)>-1;
 return '<article class="card">'+(p.old?'<span class="badge">Sale!</span>':'')+'<button class="heart" type="button" data-wish="'+p.id+'" aria-pressed="'+on+'" aria-label="Wishlist '+esc(p.name)+'">'+(on?'&#9829;':'&#9825;')+'</button><button class="imgb" type="button" data-order="'+p.id+'" aria-label="View '+esc(p.name)+'">'+pic(p)+'</button><div class="b"><span class="cat">'+p.cat+'</span><h3>'+esc(p.name)+'</h3><span class="price">'+(p.old?'<span class="old">'+inr(p.old)+'</span>':'')+inr(p.price)+'</span><button class="btn" type="button" data-add="'+p.id+'">Add to cart</button></div></article>'}
 function renderGrid(){var L=PRODUCTS.filter(function(p){return cat==="All"||(cat==="Wishlist"?wish.indexOf(p.id)>-1:p.cat===cat)});
 $("shopT").textContent=cat==="Wishlist"?"Your Wishlist":cat==="All"?"Best Sellers":cat;
-$("grid").innerHTML=L.length?L.map(card).join(""):'<p class="note">'+(PRODUCTS.length?"Nothing here yet. Tap the heart on a piece you like.":(failed?"Could not load products. Please refresh the page.":"Loading products..."))+'</p>'}
+setTimeout(reveal,0);$("grid").innerHTML=L.length?L.map(card).join(""):'<p class="note">'+(PRODUCTS.length?"Nothing here yet. Tap the heart on a piece you like.":(failed?"Could not load products. Please refresh the page.":"Loading products..."))+'</p>'}
+var io=null;
+function reveal(){var cs=document.querySelectorAll("#grid .card");if(!("IntersectionObserver" in window))return;
+if(!io)io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target)}})},{threshold:.1});
+cs.forEach(function(c){c.classList.add("rv");io.observe(c)})}
 function wc(){$("wc").textContent=wish.length}
 function toast(m){var t=$("toast");t.textContent=m;t.classList.add("on");setTimeout(function(){t.classList.remove("on")},1600)}
 $("grid").addEventListener("click",function(e){var t=e.target.closest("[data-add],[data-wish]");if(!t){var cd=e.target.closest(".card");if(cd){var od=cd.querySelector("[data-order]");if(od)openDetail(+od.getAttribute("data-order"))}return}
@@ -172,7 +232,7 @@ document.addEventListener("click",function(e){if(e.target.hasAttribute("data-clo
 
 var cart=[],cust=null,ref="";
 function byId(id){return PRODUCTS.filter(function(p){return p.id===id})[0]}
-function pic(p){return p.img?'<img src="'+esc(p.img)+'" alt="'+esc(p.name)+'">':'<div class="ph"><svg viewBox="0 0 24 24" aria-hidden="true">'+(ICON[p.cat]||ICON.Earrings)+'</svg></div>'}
+function pic(p){return p.img?'<img src="'+esc(p.img)+'" alt="'+esc(p.name)+'" loading="lazy" decoding="async">':'<div class="ph"><svg viewBox="0 0 24 24" aria-hidden="true">'+(ICON[p.cat]||ICON.Earrings)+'</svg></div>'}
 function show(t,h){$("oTitle").textContent=t;$("oBody").innerHTML=h;if(!$("orderDlg").open)$("orderDlg").showModal()}
 function cnt(){var n=cart.reduce(function(s,i){return s+i.q},0);$("cc").textContent=n;$("cc2").textContent=n}
 function total(){return cart.reduce(function(s,i){return s+byId(i.id).price*i.q},0)}
@@ -222,7 +282,7 @@ rows.map(function(r){var o=r.o;return '<tr><td>'+new Date(o.ts).toLocaleString("
 $("ownerBody").addEventListener("click",function(e){var k=e.target.getAttribute("data-day");if(k){day=k;renderOwner()}});
 $("ownerBody").addEventListener("change",function(e){var i=e.target.getAttribute("data-st");if(i!==null){var l=load();l[+i].status=e.target.value;save(l);renderOwner()}});
 $("ownerBtn").addEventListener("click",function(){var p=prompt("Owner PIN (sample PIN: "+CONFIG.ownerPin+")");if(p===null)return;if(p===CONFIG.ownerPin){renderOwner();$("ownerDlg").showModal()}else alert("Wrong PIN.")});
-renderChips();$("heroLogo").src=document.querySelector(".logo img").src;function setTheme(t){document.documentElement.setAttribute("data-theme",t);var b=$("thBtn");b.textContent=t==="dark"?"\u2600":"\u263E";b.setAttribute("aria-label",t==="dark"?"Switch to light mode":"Switch to dark mode");try{localStorage.setItem("svb_theme",t)}catch(e){}}
+renderChips();var hl=document.querySelector(".logo img").src;$("heroLogo").src=hl;$("shine").style.setProperty("--logo",'url("'+hl+'")');function setTheme(t){document.documentElement.setAttribute("data-theme",t);var b=$("thBtn");b.textContent=t==="dark"?"\u2600":"\u263E";b.setAttribute("aria-label",t==="dark"?"Switch to light mode":"Switch to dark mode");try{localStorage.setItem("svb_theme",t)}catch(e){}}
 $("thBtn").addEventListener("click",function(){setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark")});
 var th="light";try{th=localStorage.getItem("svb_theme")||"light"}catch(e){}setTheme(th);
 var failed=false;
