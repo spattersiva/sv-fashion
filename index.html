@@ -219,7 +219,7 @@ dialog[open]{animation:sheet .35s cubic-bezier(.2,.8,.2,1)}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 /* ===== EDIT THESE FOR THE REAL BUSINESS ===== */
-var CONFIG={shop:"SV Fashion Botique",whatsapp:"919003080014",email:"Svfashion3333@gmail.com",upi:"svboutique@upi",ownerPin:"1234",sheetUrl:"https://script.google.com/macros/s/AKfycbzZgvgKj_PpyRThz3XdqW1nsKDaPNiLbIQev5kgxMlB4mwF52qEd0be3T70bc_jmhXt/exec",token:"change-this-word"};
+var CONFIG={shop:"SV Fashion Botique",whatsapp:"919003080014",email:"Svfashion3333@gmail.com",upi:"6380305041@kotakbank",ownerPin:"1234",sheetUrl:"https://script.google.com/macros/s/AKfycbzZgvgKj_PpyRThz3XdqW1nsKDaPNiLbIQev5kgxMlB4mwF52qEd0be3T70bc_jmhXt/exec",token:"change-this-word"};
 var PRODUCTS=[
 {id:1,name:"Antique Jhumkas",cat:"Earrings",price:450,img:""},
 {id:2,name:"Pearl Drop Earrings",cat:"Earrings",price:350,old:450,img:""},
@@ -287,7 +287,7 @@ show("Your cart",cart.map(function(i,k){var p=byId(i.id);return '<div class="ci"
 '<div class="ci"><span>Subtotal</span><b>'+inr(total())+'</b></div>'+
 '<div class="row"><label>Your name<input id="fn" autocomplete="name" value="'+esc(c.name||"")+'"></label><label>Phone number<input id="fp" inputmode="tel" autocomplete="tel" value="'+esc(c.phone||"")+'"></label></div>'+
 '<label>Delivery address<textarea id="fa" rows="3" autocomplete="street-address">'+esc(c.addr||"")+'</textarea></label>'+'<label>State<select id="fs"><option value="">Select your state</option>'+STATES.map(function(x){return '<option'+(c.state===x?" selected":"")+'>'+x+'</option>'}).join("")+'</select></label><div id="fcw" hidden><label>City<select id="fc"><option value="c"'+(c.city==="c"?" selected":"")+'>Chennai</option><option value="o"'+(c.city==="o"?" selected":"")+'>Other city in Tamil Nadu</option></select></label></div><div class="ci"><span>Delivery</span><b id="dl"></b></div><div class="ci"><b>Total to pay</b><b class="price" id="gt"></b></div><div class="note">Free delivery on orders of '+inr(FREE_ABOVE)+' and above.</div>'+
-'<label>Email (optional)<input id="fe" type="email" autocomplete="email" value="'+esc(c.email||"")+'"></label>'+
+'<label>Email (your order confirmation is sent here)<input id="fe" type="email" autocomplete="email" value="'+esc(c.email||"")+'"></label>'+
 '<div class="err" id="err" role="alert"></div><button class="btn" type="button" id="go">Continue to payment</button>');
 $("fs").onchange=upShip;$("fc").onchange=upShip;upShip();$("go").onclick=toPay}
 $("oBody").addEventListener("click",function(e){var k=e.target.getAttribute("data-rm");if(k!==null){cust={name:$("fn").value,phone:$("fp").value,addr:$("fa").value,email:$("fe").value,state:$("fs").value,city:$("fc").value};cart.splice(+k,1);cnt();openCart()}});
@@ -306,6 +306,7 @@ function newRef(){var r="SV";for(var i=0;i<6;i++)r+=ALPHA.charAt(Math.floor(Math
 function toPay(){var n=$("fn").value.trim(),p=$("fp").value.replace(/\D/g,""),a=$("fa").value.trim(),er=$("err");
 if(!n){er.textContent="Enter your name.";return}
 if(p.length<10){er.textContent="Enter a 10-digit phone number.";return}
+if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($("fe").value.trim())){er.textContent="Enter a valid email address for your order confirmation.";return}
 if(!a){er.textContent="Enter your delivery address.";return}
 var st=$("fs").value;if(!st){er.textContent="Select your state for delivery.";return}
 cust={name:n,phone:p.slice(-10),addr:a,email:$("fe").value.trim(),state:st,city:$("fc").value};busy=false;ref=newRef();var amt=grand(cust);
