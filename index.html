@@ -227,9 +227,10 @@ var PRODUCTS=[
 {id:5,name:"Long Stone Haaram",cat:"Haaram",price:1850,old:2200,img:""},
 {id:6,name:"Temple Haaram",cat:"Haaram",price:1450,img:""},
 {id:7,name:"Stone Bangle Set",cat:"Bangles",price:650,img:""},
-{id:8,name:"Antique Kada Bangle",cat:"Bangles",price:780,img:""}
+{id:8,name:"Antique Kada Bangle",cat:"Bangles",price:780,img:""},
+{id:9,name:"Test Item",cat:"Testing",price:1,img:""}
 ];
-var DESC={1:"Classic antique-finish jhumkas with fine detailing and a secure push-back closure. A festive favourite for sarees and ethnic wear.",2:"Light pearl drop earrings with a soft golden finish. Comfortable for all-day wear.",3:"A statement kemp-style choker with a snug fit and adjustable back chain. Pairs well with silk sarees.",4:"A sparkling AD stone necklace with a clean, elegant design for weddings and parties.",5:"A long, graceful haaram with stone work and a pendant drop. Falls beautifully over festive outfits.",6:"A traditional temple-style haaram with antique gold-tone work, made for celebrations.",7:"A set of stone-studded bangles with a rich gold-tone finish. Message us to confirm your size.",8:"A bold, sturdy kada with an antique finish. Looks great alone or stacked."};
+var DESC={1:"Classic antique-finish jhumkas with fine detailing and a secure push-back closure. A festive favourite for sarees and ethnic wear.",2:"Light pearl drop earrings with a soft golden finish. Comfortable for all-day wear.",3:"A statement kemp-style choker with a snug fit and adjustable back chain. Pairs well with silk sarees.",4:"A sparkling AD stone necklace with a clean, elegant design for weddings and parties.",5:"A long, graceful haaram with stone work and a pendant drop. Falls beautifully over festive outfits.",6:"A traditional temple-style haaram with antique gold-tone work, made for celebrations.",7:"A set of stone-studded bangles with a rich gold-tone finish. Message us to confirm your size.",8:"A bold, sturdy kada with an antique finish. Looks great alone or stacked.",9:"Test item for checking the order flow. No delivery charge."};
 /* img: put a photo link or data URI here later; empty shows a placeholder */
 var ICON={Necklaces:'<path d="M4 5c0 9 4 13 8 13s8-4 8-13" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="20" r="2" fill="currentColor"/>',Earrings:'<path d="M12 8v5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="6" r="2" fill="currentColor"/><path d="M8 20c0-4 2-7 4-7s4 3 4 7z" fill="currentColor"/>',Bangles:'<ellipse cx="12" cy="12" rx="9" ry="6" fill="none" stroke="currentColor" stroke-width="2.4"/><ellipse cx="12" cy="12" rx="6" ry="3" fill="none" stroke="currentColor" stroke-width="1.2"/>',Haaram:'<path d="M5 3c-1 8 3 11 7 12 4-1 8-4 7-12" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 15v3" stroke="currentColor" stroke-width="1.5"/><path d="M12 22l-3-4h6z" fill="currentColor"/>'};
 ICON.Necklace=ICON.Necklaces;ICON.Earring=ICON.Earrings;ICON.Bangle=ICON.Bangles;ICON.Haram=ICON.Haaram;
@@ -293,12 +294,13 @@ $("oBody").addEventListener("click",function(e){var k=e.target.getAttribute("dat
 var STATES=["Tamil Nadu","Karnataka","Kerala","Andhra Pradesh","Telangana","Puducherry","Andaman and Nicobar Islands","Arunachal Pradesh","Assam","Bihar","Chandigarh","Chhattisgarh","Dadra and Nagar Haveli and Daman and Diu","Delhi","Goa","Gujarat","Haryana","Himachal Pradesh","Jammu and Kashmir","Jharkhand","Ladakh","Lakshadweep","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tripura","Uttar Pradesh","Uttarakhand","West Bengal"];
 var SOUTH=["Karnataka","Kerala","Andhra Pradesh","Telangana","Puducherry"],FREE_ABOVE=1000;
 function shipFor(st,chennai){if(st==="Tamil Nadu")return chennai?50:75;return SOUTH.indexOf(st)>-1?95:165}
-function feeNow(c){if(!c||!c.state)return 0;return total()>=FREE_ABOVE?0:shipFor(c.state,c.city==="c")}
+function testOnly(){return cart.length>0&&cart.every(function(i){var p=byId(i.id);return p&&p.cat==="Testing"})}
+function feeNow(c){if(!c||!c.state||testOnly())return 0;return total()>=FREE_ABOVE?0:shipFor(c.state,c.city==="c")}
 function grand(c){return total()+feeNow(c)}
 function upShip(){var st=$("fs").value;$("fcw").hidden=st!=="Tamil Nadu";var c={state:st,city:$("fc").value};
 $("dl").textContent=!st?"Select your state":(feeNow(c)?inr(feeNow(c)):"Free");$("gt").textContent=inr(grand(c))}
 var busy=false,paidOk=false;
-function api(o){o.token=CONFIG.token;return fetch(CONFIG.sheetUrl,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(o)}).then(function(r){return r.text()}).then(function(t){try{return JSON.parse(t)}catch(e){throw new Error("bad-response")}})}
+function api(o){o.token=CONFIG.token;return fetch(CONFIG.sheetUrl,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(o)}).then(function(r){return r.text()}).then(function(t){try{return JSON.parse(t)}catch(e){throw new Error("bad-response: "+String(t).replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim().slice(0,90))}})}
 function codeOf(e){var m=e&&e.message?e.message:"unknown";return m==="Failed to fetch"?"network":m}
 function toPay(){var n=$("fn").value.trim(),p=$("fp").value.replace(/\D/g,""),a=$("fa").value.trim(),er=$("err");
 if(!n){er.textContent="Enter your name.";return}
@@ -309,15 +311,15 @@ var st=$("fs").value;if(!st){er.textContent="Select your state for delivery.";re
 cust={name:n,phone:p.slice(-10),addr:a,email:$("fe").value.trim(),state:st,city:$("fc").value};busy=false;paidOk=false;var amt=grand(cust);
 show("Pay "+inr(amt),'<div class="pay"><div>Amount to pay</div><div class="tot">'+inr(amt)+'</div><div class="note">Items '+inr(total())+' + Delivery '+(feeNow(cust)?inr(feeNow(cust)):"Free")+' ('+esc(cust.state)+')</div><div class="note">Pay securely online with UPI, card or net banking. Your order is confirmed automatically as soon as the payment is successful.</div><div class="note"><b>No COD, online payment only.</b> Delivery in 5&ndash;10 days. If any item is damaged, an open-box video is compulsory.</div></div><div class="err" id="err" role="alert"></div><button class="btn" type="button" id="paid">Pay '+inr(amt)+' securely</button>'+(CONFIG.sheetUrl?'':'<p class="note">Demo mode: no real payment is taken. Connect the payment gateway to go live.</p>'));
 $("paid").onclick=payNow}
-function fail(m){busy=false;var b=$("paid");if(b){b.disabled=false;b.textContent="Pay "+inr(grand(cust))+" securely"}if($("err"))$("err").textContent=m}
+function fail(m){busy=false;var b=$("paid");if(b){b.disabled=false;b.textContent="Pay "+inr(grand(cust))+" securely"}if($("err"))$("err").textContent=m;if(!$("orderDlg").open)$("orderDlg").showModal()}
 function payNow(){if(busy)return;busy=true;var b=$("paid");b.disabled=true;b.textContent="Please wait...";
 if(!CONFIG.sheetUrl){setTimeout(demoDone,1300);return}
 api({action:"create",name:cust.name,phone:cust.phone,addr:cust.addr,email:cust.email,state:cust.state,city:cust.city,items:cart.map(function(i){return {id:i.id,q:i.q}})}).then(function(r){
 if(!r.ok)throw new Error(r.error||"server");return loadRzp().then(function(){openRzp(r)})}).catch(function(e){console.error(e);fail("Could not start the payment. Please try again. (code: "+codeOf(e)+")")})}
 function loadRzp(){return new Promise(function(res,rej){if(window.Razorpay){res();return}var s=document.createElement("script");s.src="https://checkout.razorpay.com/v1/checkout.js";s.onload=res;s.onerror=function(){rej(new Error("razorpay-script"))};document.head.appendChild(s)})}
 function openRzp(r){var z=new Razorpay({key:r.key,amount:r.amount,currency:"INR",order_id:r.orderId,name:CONFIG.shop,description:"Jewellery order",prefill:{name:cust.name,contact:cust.phone,email:cust.email},theme:{color:"#0f5132"},
-handler:function(p){paidOk=true;confirmPay(p)},modal:{ondismiss:function(){if(!paidOk)fail("Payment was not completed.")}}});
-z.on("payment.failed",function(){fail("Payment failed. Please try again.")});z.open()}
+handler:function(p){paidOk=true;confirmPay(p)},modal:{ondismiss:function(){if(!paidOk)fail(window.__pf?"Payment failed. Please try again.":"Payment was not completed.")}}});
+window.__pf=0;z.on("payment.failed",function(){window.__pf=1});$("orderDlg").close();z.open()}
 function confirmPay(p){show("Confirming payment","<p>Please wait while we confirm your payment. Do not close this page.</p>");
 api({action:"verify",order_id:p.razorpay_order_id,payment_id:p.razorpay_payment_id,signature:p.razorpay_signature}).then(function(r){
 if(!r.ok)throw new Error(r.error||"server");var o={id:r.id,name:cust.name,amount:r.amount,email:cust.email};cart=[];cust=null;cnt();busy=false;done(o)}).catch(function(e){console.error(e);
